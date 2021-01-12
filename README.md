@@ -22,7 +22,7 @@ pod 'ClusteredFiltersKit'
 
 ## Author
 
-pasp94, pasquale.spisto@healthwareinternational.com
+pasp94
 
 ## License
 
