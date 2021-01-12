@@ -1,0 +1,16 @@
+PODS:
+  - ClusteredFiltersKit (0.1.0)
+
+DEPENDENCIES:
+  - ClusteredFiltersKit (from `../`)
+
+EXTERNAL SOURCES:
+  ClusteredFiltersKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  ClusteredFiltersKit: 193e29ff0fd1bbf09dde5dbffb590af3688cc697
+
+PODFILE CHECKSUM: 58e05857c2f87a63a28d35077248b459d05b1855
+
+COCOAPODS: 1.10.0

@@ -1,0 +1,6 @@
+framework module ClusteredFiltersKit {
+  umbrella header "ClusteredFiltersKit-umbrella.h"
+
+  export *
+  module * { export * }
+}
