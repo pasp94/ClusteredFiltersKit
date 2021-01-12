@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'ClusteredFiltersKit_Example' do
+  pod 'ClusteredFiltersKit', :path => '../'
+
+  target 'ClusteredFiltersKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
