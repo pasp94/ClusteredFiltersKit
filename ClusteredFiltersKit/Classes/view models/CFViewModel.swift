@@ -36,7 +36,7 @@ extension CFViewModel: CFViewModelProtocol {
             return clusters[index].nameItem.size(withAttributes: nil).width + 40
             
         case .filters:
-            guard 1..<clusters[selectedClusterIdx].items.count ~= index else { return .zero }
+            guard index < clusters[selectedClusterIdx].items.count else { return .zero }
             return clusters[selectedClusterIdx].items[index].nameItem.size(withAttributes: nil).width + 40
             
         case .unknown:
@@ -57,7 +57,7 @@ extension CFViewModel: CFViewModelProtocol {
             cell.setViewModel(viewModel)
             break
         case .filters where cell is CFNamedCell:
-            guard 1..<clusters[selectedClusterIdx].items.count ~= indexPath.row else {return}
+            guard indexPath.row < clusters[selectedClusterIdx].items.count else {return}
             let item = clusters[selectedClusterIdx].items[indexPath.row]
             
             let viewModel = CFNamedCellVM(item: item)
@@ -69,13 +69,21 @@ extension CFViewModel: CFViewModelProtocol {
         
     }
     
-    public func didSelectCluster(at indexPath: IndexPath) {
+    public func didSelectCluster(at indexPath: IndexPath, completion: @escaping (Bool) -> ()) {
+        /// implemente model protocol method to check
+        /// if index is inside the range
         selectedClusterIdx = indexPath.row
+        completion(clusters[selectedClusterIdx].items.count > 1)
         
-        //
+        if clusters[selectedClusterIdx].items.count > 0 {
+            /// call delegate method with `selectedClusterIdx`
+            /// and `selectedFilterIdx` as zero
+        }
     }
     
     public func didSelectFilter(at indexPath: IndexPath) {
+        /// implemente model protocol method to check
+        /// if index is inside the range
         selectedFilterIdx = indexPath.row
         //
     }
