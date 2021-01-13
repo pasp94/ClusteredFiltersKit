@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CFView: UIView {
+open class CFView: UIView {
 
     var clusterCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -30,7 +30,7 @@ class CFView: UIView {
     
     var viewModel: CFViewModelProtocol?
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         
         super.init(frame: frame)
         
@@ -41,7 +41,7 @@ class CFView: UIView {
         
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -79,7 +79,7 @@ class CFView: UIView {
 
 
 extension CFView: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         switch collectionView {
         case clusterCollection:     return viewModel?.numberOfClusters ?? 0
@@ -92,10 +92,17 @@ extension CFView: UICollectionViewDataSource {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CFNamedCell.self), for: indexPath) as? CFNamedCell else { return .init() }
         
-        viewModel?.bindDataCell(cell: cell, at: indexPath, for: .unknown)
+        switch collectionView {
+        case clusterCollection:     viewModel?.bindDataCell(cell: cell, at: indexPath, for: .clusters)
+            
+        case filtersCollection:     viewModel?.bindDataCell(cell: cell, at: indexPath, for: .filters)
+            
+        default:
+            debugPrint("WARNING: Not defined collection case!")
+        }
         
         return cell
     }
@@ -120,12 +127,23 @@ extension CFView: UICollectionViewDelegate {
 
 extension CFView: UICollectionViewDelegateFlowLayout{
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = CGFloat(viewModel?.identifiableNameWidth(at: indexPath) ?? 0)
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        var cellWidth: CGFloat = .zero
+        
+        switch collectionView {
+        case clusterCollection:     cellWidth = viewModel?.calculeteCellWidth(collectionType: .clusters, at: indexPath.row) ?? .zero
+            
+        case filtersCollection:     cellWidth = viewModel?.calculeteCellWidth(collectionType: .filters, at: indexPath.row) ?? .zero
+            
+        default:
+            debugPrint("WARNING: Not defined collection case!")
+        }
+        
         return CGSize(width: cellWidth, height: collectionView.bounds.height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
         let side: CGFloat = max(25.0, 0.0)
         
@@ -135,7 +153,7 @@ extension CFView: UICollectionViewDelegateFlowLayout{
 }
 
 extension CFView {
-    enum CFCollectionType: Int {
+    public enum CFCollectionType: Int {
         case unknown = 0
         case clusters
         case filters

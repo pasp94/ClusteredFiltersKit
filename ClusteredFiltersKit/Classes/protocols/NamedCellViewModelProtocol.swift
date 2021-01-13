@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol NamedCellViewModelProtocol {
+public protocol NamedCellViewModelProtocol {
     
     var name: String { get }
     
