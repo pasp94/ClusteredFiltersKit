@@ -25,19 +25,44 @@ open class CFView: UIView {
     }()
     
     
-    weak var filtersCollection: UICollectionView?
+    var filtersCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        let collectionFrame = CGRect.zero
+        
+        let collection = UICollectionView(frame: collectionFrame, collectionViewLayout: layout)
+        collection.register(CFNamedCell.self, forCellWithReuseIdentifier: String(describing: CFNamedCell.self))
+        collection.backgroundColor = .clear
+        collection.showsVerticalScrollIndicator = false
+        collection.showsHorizontalScrollIndicator = false
+        
+        return collection
+    }()
     
+    private var viewModel: CFViewModelProtocol?
     
-    var viewModel: CFViewModelProtocol?
+    private var initialSize: CGSize
     
     public override init(frame: CGRect) {
         
+        initialSize = frame.size
+        
         super.init(frame: frame)
         
+        self.clipsToBounds = true
+        if CFConstants.runningMode == .debugUI {
+            layer.borderWidth = 1.0
+            layer.borderColor = UIColor.red.cgColor
+        }
         
-        let collectionFrame = CGRect(origin: .zero, size: frame.size)
-        clusterCollection.frame = collectionFrame
+        let filtersOrigin = CGPoint(x: .zero, y: initialSize.height + CFConstants.collectionsSpacing)
+        
+        clusterCollection.frame = CGRect(origin: .zero, size: initialSize)
+        filtersCollection.frame = CGRect(origin: filtersOrigin, size: initialSize)
+        
         addSubview(clusterCollection)
+        addSubview(filtersCollection)
         
     }
     
@@ -50,24 +75,60 @@ open class CFView: UIView {
         self.viewModel = viewModel
         
         clusterCollection.dataSource = self
+        filtersCollection.dataSource = self
         clusterCollection.delegate = self
+        filtersCollection.delegate = self
         
-        clusterCollection.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
+        selectItem(at: 0, inCollection: clusterCollection)
+        selectItem(at: 0, inCollection: filtersCollection)
     }
     
-    public func selectItem(at index: Int) {
-        clusterCollection.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredHorizontally, animated: true)
-        clusterCollection.selectItem(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+    internal func selectItem(at index: Int, inCollection collection: UICollectionView, animated: Bool = false) {
+        let indexpath = IndexPath(row: index, section: 0)
+        
+        DispatchQueue.main.async {
+            collection.scrollToItem(at: indexpath, at: .centeredHorizontally, animated: animated)
+            collection.selectItem(at: indexpath, animated: animated, scrollPosition: .centeredHorizontally)
+            collection.delegate?.collectionView?(collection, didSelectItemAt: indexpath)
+        }
     }
     
     
-    private func initCollectionView(_ type: CFCollectionType = .unknown) -> UICollectionView {
+    internal func makeFilters(isVisible: Bool, animated: Bool = true) {
+        debugPrint("CFView: collection frame update!!")
+        
+        var newFrame = self.frame
+        newFrame.size.height = isVisible ? ((initialSize.height * 2) + CFConstants.collectionsSpacing) : initialSize.height
+        
+        ///Code executed only when filters `Appear`
+        if isVisible {
+            filtersCollection.isHidden = false
+        }
+        
+        if animated {
+            UIView.animate(withDuration: CFConstants.animationShortTime, animations: {
+                self.frame = newFrame
+            }) { (ended) in
+                if ended && !isVisible {
+                    ///Code executed only when filters `Disappear`
+                    self.filtersCollection.isHidden = true
+                }
+            }
+        } else {
+            self.frame = newFrame
+            if !isVisible {
+                filtersCollection.isHidden = false
+            }
+        }
+    }
+    
+    
+    
+    internal func initCollectionView(_ type: CFCollectionType = .unknown, frame: CGRect = .zero) -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
-        let collectionFrame = CGRect.zero
-        
-        let collection = UICollectionView(frame: collectionFrame, collectionViewLayout: layout)
+        let collection = UICollectionView(frame: frame, collectionViewLayout: layout)
         collection.register(CFNamedCell.self, forCellWithReuseIdentifier: String(describing: CFNamedCell.self))
         collection.backgroundColor = .clear
         collection.showsVerticalScrollIndicator = false
@@ -84,7 +145,7 @@ extension CFView: UICollectionViewDataSource {
         switch collectionView {
         case clusterCollection:     return viewModel?.numberOfClusters ?? 0
             
-        case filtersCollection:     return viewModel?.numberOfClusters ?? 0
+        case filtersCollection:     return viewModel?.numberOfFilters ?? 0
             
         default:
             debugPrint("WARNING: Not defined collection case!")
@@ -110,11 +171,19 @@ extension CFView: UICollectionViewDataSource {
 
 
 extension CFView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         switch collectionView {
         case clusterCollection:
-            viewModel?.didSelectCluster(at: indexPath)
+            viewModel?.didSelectCluster(at: indexPath, completion: { [weak self] showFilters in
+                
+                guard let self = self else {return}
+                self.makeFilters(isVisible: showFilters, animated: true)
+                
+                DispatchQueue.main.async {
+                    self.filtersCollection.reloadData()
+                }
+            })
             
         case filtersCollection:
             viewModel?.didSelectFilter(at: indexPath)

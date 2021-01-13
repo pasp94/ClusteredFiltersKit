@@ -62,10 +62,10 @@ extension Cluster {
     public static func getFakeClusters() -> [Cluster] {
         return [
             Cluster(name: "Cluster 1w", id: 1, filters: Filter.getFakefilters()),
-            Cluster(name: "Cluster 2ww", id: 2, filters: Filter.getFakefilters()),
+            Cluster(name: "Cluster 2ww", id: 2, filters: []),
             Cluster(name: "Cluster 3www", id: 3, filters: Filter.getFakefilters()),
             Cluster(name: "Cluster 4wwww", id: 4, filters: Filter.getFakefilters()),
-            Cluster(name: "Cluster 5wwwww", id: 5, filters: Filter.getFakefilters()),
+            Cluster(name: "Cluster 5wwwww", id: 5, filters: []),
             Cluster(name: "Cluster 6wwwwww", id: 6, filters: Filter.getFakefilters())
         ]
     }

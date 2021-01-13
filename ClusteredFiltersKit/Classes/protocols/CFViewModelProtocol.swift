@@ -17,7 +17,7 @@ public protocol CFViewModelProtocol {
 
     func bindDataCell<CELL: ConfigurableCell>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType)
     
-    func didSelectCluster(at indexPath: IndexPath)
+    func didSelectCluster(at indexPath: IndexPath, completion: @escaping (_ showFilters: Bool) -> ())
     
     func didSelectFilter(at indexPath: IndexPath)
 }
