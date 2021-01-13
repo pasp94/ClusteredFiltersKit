@@ -7,33 +7,44 @@
 
 import Foundation
 
-final class CFViewModel {
+open class CFViewModel {
     
     var clusters: [CFIdentifiableContainer]
     
     var selectedClusterIdx = 0
     var selectedFilterIdx = 0
     
-    init(items: [CFIdentifiableContainer]) {
+    public init(items: [CFIdentifiableContainer]) {
         self.clusters = items
     }
 }
 
 extension CFViewModel: CFViewModelProtocol {
     
-    var numberOfClusters: Int {
+    public var numberOfClusters: Int {
         return clusters.count
     }
     
-    var numberOfFilters: Int {
+    public var numberOfFilters: Int {
         return clusters[selectedClusterIdx].items.count
     }
     
-    func identifiableNameWidth(at indexPath: IndexPath) -> Float {
-        return Float(clusters[indexPath.row].nameItem.size(withAttributes: nil).width) + 40
+    public func calculeteCellWidth(collectionType: CFView.CFCollectionType, at index: Int) -> CGFloat {
+        switch collectionType {
+        case .clusters:
+            guard index < clusters.count else { return .zero }
+            return clusters[index].nameItem.size(withAttributes: nil).width + 40
+            
+        case .filters:
+            guard 1..<clusters[selectedClusterIdx].items.count ~= index else { return .zero }
+            return clusters[selectedClusterIdx].items[index].nameItem.size(withAttributes: nil).width + 40
+            
+        case .unknown:
+            return .zero
+        }
     }
     
-    func bindDataCell<CELL>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType) where CELL : ConfigurableCell {
+    public func bindDataCell<CELL>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType) where CELL : ConfigurableCell {
         
         switch collectionType {
         case .unknown:
@@ -58,13 +69,13 @@ extension CFViewModel: CFViewModelProtocol {
         
     }
     
-    func didSelectCluster(at indexPath: IndexPath) {
+    public func didSelectCluster(at indexPath: IndexPath) {
         selectedClusterIdx = indexPath.row
         
         //
     }
     
-    func didSelectFilter(at indexPath: IndexPath) {
+    public func didSelectFilter(at indexPath: IndexPath) {
         selectedFilterIdx = indexPath.row
         //
     }

@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol CFDelegate {
+public protocol CFDelegate {
     func cfView(_ view: CFView, didSelectFilter filterId: Int, ofCluster clusterId: Int)
 }

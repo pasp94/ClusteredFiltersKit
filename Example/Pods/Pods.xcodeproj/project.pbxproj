@@ -119,11 +119,11 @@
 		07998B3F33C2A4B944F68882D3813E4F /* ClusteredFiltersKit */ = {
 			isa = PBXGroup;
 			children = (
+				4030A7FFB5F6AE979F684D4C8BEEF880 /* Pod */,
 				5F2D0F58FA4077611D9B98548E921036 /* protocols */,
+				2259E583F2AEAD51BFBB03D0FD9DF829 /* Support Files */,
 				2B49ADE4EC861174B9CA5BB7A7CD4A24 /* view models */,
 				091A45E75C0BA4A5DE3C254EE5D16582 /* views */,
-				4030A7FFB5F6AE979F684D4C8BEEF880 /* Pod */,
-				2259E583F2AEAD51BFBB03D0FD9DF829 /* Support Files */,
 			);
 			name = ClusteredFiltersKit;
 			path = ../..;
@@ -151,7 +151,7 @@
 				7DC5775668A997EC59A2AABE1D5FE0DD /* ClusteredFiltersKit.release.xcconfig */,
 			);
 			name = "Support Files";
-			path = Example/Pods/ClusteredFiltersKit;
+			path = "Example/Pods/Target Support Files/ClusteredFiltersKit";
 			sourceTree = "<group>";
 		};
 		29034D30DEE8D47CEC79561767C3D4FD /* Development Pods */ = {
@@ -368,6 +368,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 1100;
+				TargetAttributes = {
+					D3F94144B3FCBDE9DB3231F8E6B1EB5F = {
+						DevelopmentTeam = TT2HY7NRD9;
+					};
+				};
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -575,11 +580,13 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = TT2HY7NRD9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -769,11 +776,13 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = TT2HY7NRD9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

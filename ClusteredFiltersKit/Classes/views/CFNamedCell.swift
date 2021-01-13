@@ -7,9 +7,9 @@
 
 import UIKit
 
-class CFNamedCell: UICollectionViewCell {
+public class CFNamedCell: UICollectionViewCell {
     
-    override var isSelected: Bool {
+    public override var isSelected: Bool {
         didSet {
             UIView.animate(withDuration: 0.5) {
                 self.backgroundColor = self.isSelected ? .cyan : .clear
@@ -54,7 +54,7 @@ class CFNamedCell: UICollectionViewCell {
 }
 
 extension CFNamedCell: ConfigurableCell {
-    func setViewModel<ViewModelType>(_ viewModel: ViewModelType) {
+    public func setViewModel<ViewModelType>(_ viewModel: ViewModelType) {
         
         self.viewModel = viewModel as? NamedCellViewModelProtocol
             

@@ -7,15 +7,15 @@
 
 import Foundation
 
-protocol CFViewModelProtocol {
+public protocol CFViewModelProtocol {
     
     var numberOfClusters: Int { get }
     
     var numberOfFilters: Int { get }
     
-    func identifiableNameWidth(at indexPath: IndexPath) -> Float
+    func calculeteCellWidth(collectionType: CFView.CFCollectionType, at index: Int) -> CGFloat
 
-    func bindDataCell<CELL>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType) where CELL: ConfigurableCell
+    func bindDataCell<CELL: ConfigurableCell>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType)
     
     func didSelectCluster(at indexPath: IndexPath)
     

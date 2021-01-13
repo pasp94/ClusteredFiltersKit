@@ -13,11 +13,11 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let customView = CFView(frame: cfView.frame)
-//        let collectionVM = CFViewModel(items: )
-//        customView.setCollectionProvider(collectionVM)
-//        
-//        view.addSubview(customView)
+        let customView = CFView(frame: CGRect(x: 0, y: 60, width: UIScreen.main.bounds.width, height: 38.0))
+        let collectionVM = CFViewModel(items: Cluster.getFakeClusters())
+        customView.setCollectionProvider(collectionVM)
+        
+        view.addSubview(customView)
     }
 
     override func didReceiveMemoryWarning() {
