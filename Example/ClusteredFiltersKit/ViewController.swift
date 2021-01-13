@@ -7,17 +7,21 @@
 //
 
 import UIKit
+import ClusteredFiltersKit
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+//        let customView = CFView(frame: cfView.frame)
+//        let collectionVM = CFViewModel(items: )
+//        customView.setCollectionProvider(collectionVM)
+//        
+//        view.addSubview(customView)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 }
