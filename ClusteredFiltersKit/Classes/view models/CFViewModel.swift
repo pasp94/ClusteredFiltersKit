@@ -18,6 +18,9 @@ open class CFViewModel {
     var selectedClusterIdx = 0
     var selectedFilterIdx = 0
     
+    var firstSelection = true
+    var clusterChanged = true
+    
     public init(items: [CFIdentifiableContainer]) {
         self.clusters = items
     }
@@ -89,6 +92,12 @@ extension CFViewModel: CFViewModelProtocol {
     public func didSelectCluster(at indexPath: IndexPath, completion: @escaping (Bool) -> ()) {
         /// implemente model protocol method to check
         /// if index is inside the range
+        if !firstSelection {
+            guard indexPath.row != selectedClusterIdx else { clusterChanged = false; return }
+            clusterChanged = true
+        }
+        firstSelection = false
+        
         selectedClusterIdx = indexPath.row
         selectedFilterIdx = 0
         
@@ -109,6 +118,9 @@ extension CFViewModel: CFViewModelProtocol {
     public func didSelectFilter(at indexPath: IndexPath) {
         /// implemente model protocol method to check
         /// if index is inside the range
+        guard selectedFilterIdx != indexPath.row || clusterChanged else { return }
+        clusterChanged = false
+        
         selectedFilterIdx = indexPath.row
         let cluster = clusters[selectedClusterIdx]
         if cluster.items.count > 0 {
