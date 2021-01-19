@@ -9,7 +9,7 @@ import Foundation
 
 public protocol CFIdentifiable {
     var idItem: Int { get }
-    var nameItem: String{ get }
+    var nameItem: String { get }
 }
 
 public protocol CFIdentifiableContainer: CFIdentifiable {

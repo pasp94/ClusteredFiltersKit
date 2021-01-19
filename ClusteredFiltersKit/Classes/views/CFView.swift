@@ -8,41 +8,36 @@
 import UIKit
 
 open class CFView: UIView {
-
-    var clusterCollection: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        
-        let collectionFrame = CGRect.zero
-        
-        let collection = UICollectionView(frame: collectionFrame, collectionViewLayout: layout)
-        collection.register(CFNamedCell.self, forCellWithReuseIdentifier: String(describing: CFNamedCell.self))
-        collection.backgroundColor = .clear
-        collection.showsVerticalScrollIndicator = false
-        collection.showsHorizontalScrollIndicator = false
-        
-        return collection
-    }()
     
     
-    var filtersCollection: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+    public var delegate: CFDelegate? {
+        set {
+            viewModel?.cfDelegate = newValue
+        }
         
-        let collectionFrame = CGRect.zero
-        
-        let collection = UICollectionView(frame: collectionFrame, collectionViewLayout: layout)
-        collection.register(CFNamedCell.self, forCellWithReuseIdentifier: String(describing: CFNamedCell.self))
-        collection.backgroundColor = .clear
-        collection.showsVerticalScrollIndicator = false
-        collection.showsHorizontalScrollIndicator = false
-        
-        return collection
-    }()
+        get {
+            return viewModel?.cfDelegate
+        }
+    }
     
+    
+    
+    /// Internal proprerties
+    internal var clusterCollection: UICollectionView = initCollectionView()
+    
+    internal var filtersCollection: UICollectionView = initCollectionView()
+    
+    
+    
+    ///Private properties
     private var viewModel: CFViewModelProtocol?
     
     private var initialSize: CGSize
+    
+    private var animationEnable: Bool = false
+    
+    
+    
     
     public override init(frame: CGRect) {
         
@@ -74,14 +69,25 @@ open class CFView: UIView {
     public func setCollectionProvider(_ viewModel: CFViewModelProtocol) {
         self.viewModel = viewModel
         
+        
+        self.viewModel?.bindeFileters { 
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                self.animationEnable = true
+                self.filtersCollection.reloadData()
+                self.selectItem(at: self.viewModel?.indexForSelectedFilter ?? 0, inCollection: self.filtersCollection)
+            }
+        }
+        
         clusterCollection.dataSource = self
         filtersCollection.dataSource = self
         clusterCollection.delegate = self
         filtersCollection.delegate = self
         
         selectItem(at: 0, inCollection: clusterCollection)
-        selectItem(at: 0, inCollection: filtersCollection)
     }
+    
     
     internal func selectItem(at index: Int, inCollection collection: UICollectionView, animated: Bool = false) {
         let indexpath = IndexPath(row: index, section: 0)
@@ -122,9 +128,7 @@ open class CFView: UIView {
         }
     }
     
-    
-    
-    internal func initCollectionView(_ type: CFCollectionType = .unknown, frame: CGRect = .zero) -> UICollectionView {
+    internal static func initCollectionView(_ type: CFCollectionType = .unknown, frame: CGRect = .zero) -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
@@ -178,11 +182,8 @@ extension CFView: UICollectionViewDelegate {
             viewModel?.didSelectCluster(at: indexPath, completion: { [weak self] showFilters in
                 
                 guard let self = self else {return}
-                self.makeFilters(isVisible: showFilters, animated: true)
+                self.makeFilters(isVisible: showFilters, animated: self.animationEnable)
                 
-                DispatchQueue.main.async {
-                    self.filtersCollection.reloadData()
-                }
             })
             
         case filtersCollection:
@@ -214,7 +215,7 @@ extension CFView: UICollectionViewDelegateFlowLayout{
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        let side: CGFloat = max(25.0, 0.0)
+        let side: CGFloat = max(CFConstants.collectionsSideInset, 0.0)
         
         return UIEdgeInsets(top: 0.0, left: side, bottom: 0.0, right: side)
     }

@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol CFDelegate {
-    func cfView(_ view: CFView, didSelectFilter filterId: Int, ofCluster clusterId: Int)
+    func didSelectFilter(_ filterId: Int, ofCluster clusterId: Int)
 }

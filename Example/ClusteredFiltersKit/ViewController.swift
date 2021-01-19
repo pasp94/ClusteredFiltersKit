@@ -11,11 +11,16 @@ import ClusteredFiltersKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var filterIdLabel: UILabel!
+    @IBOutlet weak var clusterIdLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let customView = CFView(frame: CGRect(x: 0, y: 60, width: UIScreen.main.bounds.width, height: 38.0))
+        let customView = CFView(frame: CGRect(x: 0, y: 60, width: UIScreen.main.bounds.width, height: 30.0))
         let collectionVM = CFViewModel(items: Cluster.getFakeClusters())
         customView.setCollectionProvider(collectionVM)
+        customView.delegate = self
         
         view.addSubview(customView)
     }
@@ -26,3 +31,16 @@ class ViewController: UIViewController {
 
 }
 
+extension ViewController: CFDelegate {
+    func didSelectFilter(_ filterId: Int, ofCluster clusterId: Int) {
+        debugPrint("EXAMPLE: Change Cluster and filter: \(filterId)   cluster: \(clusterId)")
+        
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let self = self else { return }
+            
+            self.filterIdLabel.text = "\(filterId)"
+            self.clusterIdLabel.text = "\(clusterId)"
+        }
+    }
+}
