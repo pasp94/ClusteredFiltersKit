@@ -11,8 +11,9 @@ public class CFNamedCell: UICollectionViewCell {
     
     public override var isSelected: Bool {
         didSet {
-            UIView.animate(withDuration: 0.5) {
-                self.backgroundColor = self.isSelected ? .cyan : .clear
+            UIView.animate(withDuration: CFConstants.animationShortTime) {
+                self.backgroundColor = self.isSelected ? .blue : .clear
+                self.nameLabel.textColor = self.isSelected ? .white : .darkText
             }
         }
     }

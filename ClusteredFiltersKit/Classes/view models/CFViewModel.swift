@@ -11,6 +11,10 @@ open class CFViewModel {
     
     var clusters: [CFIdentifiableContainer]
     
+    public var cfDelegate: CFDelegate?
+    
+    var filtersRefresh: (() -> ())?
+    
     var selectedClusterIdx = 0
     var selectedFilterIdx = 0
     
@@ -29,6 +33,14 @@ extension CFViewModel: CFViewModelProtocol {
         return clusters[selectedClusterIdx].items.count
     }
     
+    public var indexForSelectedCluster: Int {
+        return selectedClusterIdx
+    }
+    
+    public var indexForSelectedFilter: Int {
+        return selectedFilterIdx
+    }
+    
     public func calculeteCellWidth(collectionType: CFView.CFCollectionType, at index: Int) -> CGFloat {
         switch collectionType {
         case .clusters:
@@ -42,6 +54,11 @@ extension CFViewModel: CFViewModelProtocol {
         case .unknown:
             return .zero
         }
+    }
+    
+    
+    public func bindeFileters(completion: @escaping () -> ()) {
+        self.filtersRefresh = completion
     }
     
     public func bindDataCell<CELL>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType) where CELL : ConfigurableCell {
@@ -73,11 +90,19 @@ extension CFViewModel: CFViewModelProtocol {
         /// implemente model protocol method to check
         /// if index is inside the range
         selectedClusterIdx = indexPath.row
-        completion(clusters[selectedClusterIdx].items.count > 1)
+        selectedFilterIdx = 0
         
-        if clusters[selectedClusterIdx].items.count > 0 {
+        let cluster = clusters[selectedClusterIdx]
+        
+        completion(cluster.items.count > 1)
+        
+        if cluster.items.count > 0 {
             /// call delegate method with `selectedClusterIdx`
             /// and `selectedFilterIdx` as zero
+            let filter = cluster.items[selectedFilterIdx]
+            cfDelegate?.didSelectFilter(filter.idItem, ofCluster: cluster.idItem)
+            
+            filtersRefresh?()
         }
     }
     
@@ -85,6 +110,12 @@ extension CFViewModel: CFViewModelProtocol {
         /// implemente model protocol method to check
         /// if index is inside the range
         selectedFilterIdx = indexPath.row
-        //
+        let cluster = clusters[selectedClusterIdx]
+        if cluster.items.count > 0 {
+            /// call delegate method with `selectedClusterIdx`
+            /// and `selectedFilterIdx` as zero
+            let filter = cluster.items[selectedFilterIdx]
+            cfDelegate?.didSelectFilter(filter.idItem, ofCluster: cluster.idItem)
+        }
     }
 }
