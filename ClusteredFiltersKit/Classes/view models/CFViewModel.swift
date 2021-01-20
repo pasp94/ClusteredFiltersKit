@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class CFViewModel {
+@objc open class CFViewModel: NSObject {
     
     var clusters: [CFIdentifiableContainer]
     
@@ -21,7 +21,7 @@ open class CFViewModel {
     var firstSelection = true
     var clusterChanged = true
     
-    public init(items: [CFIdentifiableContainer]) {
+    @objc public init(items: [CFIdentifiableContainer]) {
         self.clusters = items
     }
 }

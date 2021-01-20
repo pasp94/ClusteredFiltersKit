@@ -7,11 +7,11 @@
 
 import Foundation
 
-public protocol CFIdentifiable {
+@objc public protocol CFIdentifiable: class {
     var idItem: Int { get }
     var nameItem: String { get }
 }
 
-public protocol CFIdentifiableContainer: CFIdentifiable {
+@objc public protocol CFIdentifiableContainer: CFIdentifiable {
     var items: [CFIdentifiable] { get }
 }

@@ -18,6 +18,6 @@ final class CFNamedCellVM {
 
 extension CFNamedCellVM: NamedCellViewModelProtocol {
     var name: String {
-        cfGenericItem.nameItem
+        return cfGenericItem.nameItem
     }
 }

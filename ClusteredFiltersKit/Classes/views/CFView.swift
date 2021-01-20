@@ -7,19 +7,14 @@
 
 import UIKit
 
-open class CFView: UIView {
+@objc open class CFView: UIView {
     
     
-    public var delegate: CFDelegate? {
-        set {
-            viewModel?.cfDelegate = newValue
-        }
-        
-        get {
-            return viewModel?.cfDelegate
+    @objc public var delegate: CFDelegate? {
+        didSet {
+            viewModel?.cfDelegate = delegate
         }
     }
-    
     
     
     /// Internal proprerties
@@ -58,7 +53,6 @@ open class CFView: UIView {
         
         addSubview(clusterCollection)
         addSubview(filtersCollection)
-        
     }
     
     required public init?(coder: NSCoder) {
@@ -66,9 +60,8 @@ open class CFView: UIView {
     }
     
     
-    public func setCollectionProvider(_ viewModel: CFViewModelProtocol) {
+    @objc public func setCollectionProvider(_ viewModel: CFViewModel) {
         self.viewModel = viewModel
-        
         
         self.viewModel?.bindeFileters { 
             DispatchQueue.main.async { [weak self] in
@@ -92,11 +85,11 @@ open class CFView: UIView {
     internal func selectItem(at index: Int, inCollection collection: UICollectionView, animated: Bool = false) {
         let indexpath = IndexPath(row: index, section: 0)
         
-        DispatchQueue.main.async {
-            collection.scrollToItem(at: indexpath, at: .centeredHorizontally, animated: animated)
-            collection.selectItem(at: indexpath, animated: animated, scrollPosition: .centeredHorizontally)
-            collection.delegate?.collectionView?(collection, didSelectItemAt: indexpath)
-        }
+        //DispatchQueue.main.async {
+        collection.scrollToItem(at: indexpath, at: .centeredHorizontally, animated: animated)
+        collection.selectItem(at: indexpath, animated: animated, scrollPosition: .centeredHorizontally)
+        collection.delegate?.collectionView?(collection, didSelectItemAt: indexpath)
+        //}
     }
     
     
@@ -137,6 +130,7 @@ open class CFView: UIView {
         collection.backgroundColor = .clear
         collection.showsVerticalScrollIndicator = false
         collection.showsHorizontalScrollIndicator = false
+        collection.isScrollEnabled = true
         
         return collection
     }
@@ -223,7 +217,7 @@ extension CFView: UICollectionViewDelegateFlowLayout{
 }
 
 extension CFView {
-    public enum CFCollectionType: Int {
+    @objc public enum CFCollectionType: Int {
         case unknown = 0
         case clusters
         case filters

@@ -59,8 +59,6 @@ extension CFNamedCell: ConfigurableCell {
         
         self.viewModel = viewModel as? NamedCellViewModelProtocol
             
-        DispatchQueue.main.async {
-            self.nameLabel.text = self.viewModel?.name
-        }
+        self.nameLabel.text = self.viewModel?.name
     }
 }
