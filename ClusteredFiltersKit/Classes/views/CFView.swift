@@ -74,11 +74,12 @@ import UIKit
         }
         
         clusterCollection.dataSource = self
-        filtersCollection.dataSource = self
         clusterCollection.delegate = self
+        
+        filtersCollection.dataSource = self
         filtersCollection.delegate = self
         
-        selectItem(at: 0, inCollection: clusterCollection)
+        selectItem(at: self.viewModel?.indexForSelectedCluster ?? 0, inCollection: clusterCollection)
     }
     
     
