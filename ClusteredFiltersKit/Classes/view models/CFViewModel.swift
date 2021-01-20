@@ -15,14 +15,16 @@ import Foundation
     
     var filtersRefresh: (() -> ())?
     
-    var selectedClusterIdx = 0
-    var selectedFilterIdx = 0
+    var selectedClusterIdx: Int
+    var selectedFilterIdx: Int
     
     var firstSelection = true
     var clusterChanged = true
     
-    @objc public init(items: [CFIdentifiableContainer]) {
+    @objc public init(items: [CFIdentifiableContainer], selectedClusterIdx: Int = 0, selectedFilterIdx: Int = 0) {
         self.clusters = items
+        self.selectedClusterIdx = selectedClusterIdx
+        self.selectedFilterIdx  = selectedFilterIdx
     }
 }
 
@@ -96,10 +98,11 @@ extension CFViewModel: CFViewModelProtocol {
             guard indexPath.row != selectedClusterIdx else { clusterChanged = false; return }
             clusterChanged = true
         }
-        firstSelection = false
         
         selectedClusterIdx = indexPath.row
-        selectedFilterIdx = 0
+        selectedFilterIdx = !firstSelection ? 0 : selectedFilterIdx
+        
+        firstSelection = false
         
         let cluster = clusters[selectedClusterIdx]
         

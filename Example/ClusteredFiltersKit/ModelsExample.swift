@@ -9,9 +9,14 @@
 import Foundation
 import ClusteredFiltersKit
 
-struct Filter {
-    var name: String
+class Filter {
+    var name: String = ""
     var id: Int
+    
+    init(name: String, id: Int) {
+        self.name = name
+        self.id = id
+    }
 }
 
 extension Filter: CFIdentifiable {
@@ -38,10 +43,16 @@ extension Filter {
 }
 
 
-struct Cluster {
+class Cluster {
     var name: String
     var id: Int
     var filters: [Filter]
+    
+    init(name: String, id: Int, filters: [Filter]) {
+        self.name = name
+        self.id = id
+        self.filters = filters
+    }
 }
 
 extension Cluster: CFIdentifiableContainer {
