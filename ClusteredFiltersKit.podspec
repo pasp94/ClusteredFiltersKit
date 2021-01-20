@@ -24,12 +24,12 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/pasp94/ClusteredFiltersKit'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'pasp94' => 'pasquale.spisto@healthwareinternational.com' }
+  s.author           = { 'pasp94' => 'spisto.pasquale1994@gmail.com' }
   s.source           = { :git => 'https://github.com/pasp94/ClusteredFiltersKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '10.0'
-
+  s.swift_version = '4.0'
   s.source_files = 'ClusteredFiltersKit/Classes/**/*'
   
   # s.resource_bundles = {

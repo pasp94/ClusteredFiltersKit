@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol CFDelegate {
+@objc public protocol CFDelegate {
     func didSelectFilter(_ filterId: Int, ofCluster clusterId: Int)
 }

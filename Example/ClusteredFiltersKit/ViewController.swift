@@ -39,8 +39,8 @@ extension ViewController: CFDelegate {
             
             guard let self = self else { return }
             
-            self.filterIdLabel.text = "\(filterId)"
-            self.clusterIdLabel.text = "\(clusterId)"
+            self.filterIdLabel.text     = "\(filterId)"
+            self.clusterIdLabel.text    = "\(clusterId)"
         }
     }
 }
