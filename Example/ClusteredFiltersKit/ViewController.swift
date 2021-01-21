@@ -18,6 +18,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let customView = CFView(frame: CGRect(x: 0, y: 60, width: UIScreen.main.bounds.width, height: 30.0))
+        customView.cellTextColor = .green
+        customView.selectionColor = .orange
+        
         let collectionVM = CFViewModel(items: Cluster.getFakeClusters())
         customView.setCollectionProvider(collectionVM)
         customView.delegate = self

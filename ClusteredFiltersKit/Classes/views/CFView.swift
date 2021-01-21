@@ -10,15 +10,27 @@ import UIKit
 @objc open class CFView: UIView {
     
     
-    @objc public var selectionColor: UIColor = .cyan {
+    @objc public var selectionColor: UIColor? {
         didSet {
-            cellStyle = .custom(cellTextColor, selectionColor)
+            let text = cellTextColor ?? CFCellStyle.default.normalTextColor
+            guard let newSelection = selectionColor else {
+                cellStyle = .custom(text, CFCellStyle.default.selectionColor)
+                return
+            }
+            
+            cellStyle = .custom(text, newSelection)
         }
     }
     
-    @objc public var cellTextColor: UIColor = .darkText {
+    @objc public var cellTextColor: UIColor? {
         didSet {
-            cellStyle = .custom(cellTextColor, selectionColor)
+            let selection = selectionColor ?? CFCellStyle.default.selectionColor
+            guard let newText = cellTextColor else {
+                cellStyle = .custom(CFCellStyle.default.normalTextColor, selection)
+                return
+            }
+            
+            cellStyle = .custom(newText, selection)
         }
     }
     
@@ -66,8 +78,8 @@ import UIKit
         clusterCollection.frame = CGRect(origin: .zero, size: initialSize)
         filtersCollection.frame = CGRect(origin: filtersOrigin, size: initialSize)
         
-        addSubview(clusterCollection)
-        addSubview(filtersCollection)
+        self.addSubview(clusterCollection)
+        self.addSubview(filtersCollection)
     }
     
     required public init?(coder: NSCoder) {
@@ -171,9 +183,9 @@ extension CFView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CFNamedCell.self), for: indexPath) as? CFNamedCell else { return .init() }
         
         switch collectionView {
-        case clusterCollection:     viewModel?.bindDataCell(cell: cell, at: indexPath, for: .clusters, style: .default)
+        case clusterCollection:     viewModel?.bindDataCell(cell: cell, at: indexPath, for: .clusters, style: cellStyle)
             
-        case filtersCollection:     viewModel?.bindDataCell(cell: cell, at: indexPath, for: .filters, style: .default)
+        case filtersCollection:     viewModel?.bindDataCell(cell: cell, at: indexPath, for: .filters, style: cellStyle)
             
         default:
             debugPrint("WARNING: Not defined collection case!")
