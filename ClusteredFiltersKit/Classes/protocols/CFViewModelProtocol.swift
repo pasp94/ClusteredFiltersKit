@@ -23,7 +23,7 @@ public protocol CFViewModelProtocol {
     
     func bindeFileters(completion: @escaping () -> ())
 
-    func bindDataCell<CELL: ConfigurableCell>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType)
+    func bindDataCell<CELL: ConfigurableCell>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType, style: CFCellStyle)
     
     func didSelectCluster(at indexPath: IndexPath, completion: @escaping (_ showFilters: Bool) -> ())
     

@@ -15,5 +15,5 @@ public protocol ConfigurableCell {
    /// Allow to a genercs cell to be configured with one of the following ViewModelCell Protocols
    ///   - Parameters
    ///      - `viewModels`: the object in charge of matching the data of cells with them UI
-    func setViewModel<ViewModelType: NamedCellViewModelProtocol>(_ viewModel: ViewModelType)
+    func setViewModel<ViewModelType: NamedCellViewModelProtocol>(_ viewModel: ViewModelType, cellStyle: CFCellStyle)
 }

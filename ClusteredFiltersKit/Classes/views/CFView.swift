@@ -10,11 +10,24 @@ import UIKit
 @objc open class CFView: UIView {
     
     
+    @objc public var selectionColor: UIColor = .cyan {
+        didSet {
+            cellStyle = .custom(cellTextColor, selectionColor)
+        }
+    }
+    
+    @objc public var cellTextColor: UIColor = .darkText {
+        didSet {
+            cellStyle = .custom(cellTextColor, selectionColor)
+        }
+    }
+    
     @objc public var delegate: CFDelegate? {
         didSet {
             viewModel?.cfDelegate = delegate
         }
     }
+    
     
     
     /// Internal proprerties
@@ -30,6 +43,8 @@ import UIKit
     private var initialSize: CGSize
     
     private var animationEnable: Bool = false
+    
+    private var cellStyle: CFCellStyle = .default
     
     
     
@@ -67,7 +82,7 @@ import UIKit
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
-                self.animationEnable = true
+                //self.animationEnable = true
                 self.filtersCollection.reloadData()
                 self.selectItem(at: self.viewModel?.indexForSelectedFilter ?? 0, inCollection: self.filtersCollection)
             }
@@ -156,9 +171,9 @@ extension CFView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CFNamedCell.self), for: indexPath) as? CFNamedCell else { return .init() }
         
         switch collectionView {
-        case clusterCollection:     viewModel?.bindDataCell(cell: cell, at: indexPath, for: .clusters)
+        case clusterCollection:     viewModel?.bindDataCell(cell: cell, at: indexPath, for: .clusters, style: .default)
             
-        case filtersCollection:     viewModel?.bindDataCell(cell: cell, at: indexPath, for: .filters)
+        case filtersCollection:     viewModel?.bindDataCell(cell: cell, at: indexPath, for: .filters, style: .default)
             
         default:
             debugPrint("WARNING: Not defined collection case!")

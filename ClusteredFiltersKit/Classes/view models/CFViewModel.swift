@@ -66,7 +66,7 @@ extension CFViewModel: CFViewModelProtocol {
         self.filtersRefresh = completion
     }
     
-    public func bindDataCell<CELL>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType) where CELL : ConfigurableCell {
+    public func bindDataCell<CELL: ConfigurableCell>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType, style: CFCellStyle = .default) {
         
         switch collectionType {
         case .unknown:
@@ -76,14 +76,14 @@ extension CFViewModel: CFViewModelProtocol {
             let item = clusters[indexPath.row]
             
             let viewModel = CFNamedCellVM(item: item)
-            cell.setViewModel(viewModel)
+            cell.setViewModel(viewModel, cellStyle: style)
             break
         case .filters where cell is CFNamedCell:
             guard indexPath.row < clusters[selectedClusterIdx].items.count else {return}
             let item = clusters[selectedClusterIdx].items[indexPath.row]
             
             let viewModel = CFNamedCellVM(item: item)
-            cell.setViewModel(viewModel)
+            cell.setViewModel(viewModel, cellStyle: style)
             break
         default:
             return

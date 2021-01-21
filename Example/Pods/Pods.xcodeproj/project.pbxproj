@@ -23,6 +23,7 @@
 		B164BADA1666F69A4F0CF0CF3A342DB5 /* Pods-ClusteredFiltersKit_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DCC89FF8952E86E4D3F563A7187236F6 /* Pods-ClusteredFiltersKit_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BCB34F6DEE4542CF8474B2293DD5AA5B /* CFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51908B76C27A5CB17C8ABDCCA58A0B /* CFView.swift */; };
 		D43DA75F55DADA849A25D6D067FFF560 /* CFNamedCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F10519C8AB6705DFEE741A7DD975F19 /* CFNamedCellVM.swift */; };
+		F12ED3F425B98C73009AE6DF /* CFCellStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ED3F325B98C73009AE6DF /* CFCellStyle.swift */; };
 		F137C5E625B081B9005B5D04 /* CFConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F137C5E525B081B9005B5D04 /* CFConstants.swift */; };
 		F1AC031B8B03C414D6AECBAD6BD1CACE /* CFViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8211FFDCDC3241B5682AB173D6D6 /* CFViewModelProtocol.swift */; };
 		F72435277A3324E727998B2ECE4CB43B /* CFViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC039C65A01AD7EB18A5979BEEEA39D /* CFViewModel.swift */; };
@@ -86,6 +87,7 @@
 		ECC2A82CDD6B9EE7A4AA692334C3E9E5 /* ClusteredFiltersKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ClusteredFiltersKit-dummy.m"; sourceTree = "<group>"; };
 		EF40CAE7617FF716AC8F23457DDC4342 /* CFDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CFDelegate.swift; sourceTree = "<group>"; };
 		F0705CD93F1280C4BF15925AB0C7D429 /* Pods-ClusteredFiltersKit_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-ClusteredFiltersKit_Tests.modulemap"; sourceTree = "<group>"; };
+		F12ED3F325B98C73009AE6DF /* CFCellStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFCellStyle.swift; sourceTree = "<group>"; };
 		F137C5E525B081B9005B5D04 /* CFConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CFConstants.swift; sourceTree = "<group>"; };
 		F4B69580D8245A3D7C089FC314517179 /* ClusteredFiltersKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ClusteredFiltersKit-prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -281,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				F137C5E525B081B9005B5D04 /* CFConstants.swift */,
+				F12ED3F325B98C73009AE6DF /* CFCellStyle.swift */,
 			);
 			name = common;
 			path = ClusteredFiltersKit/Classes/common;
@@ -441,6 +444,7 @@
 				D43DA75F55DADA849A25D6D067FFF560 /* CFNamedCellVM.swift in Sources */,
 				BCB34F6DEE4542CF8474B2293DD5AA5B /* CFView.swift in Sources */,
 				F72435277A3324E727998B2ECE4CB43B /* CFViewModel.swift in Sources */,
+				F12ED3F425B98C73009AE6DF /* CFCellStyle.swift in Sources */,
 				F137C5E625B081B9005B5D04 /* CFConstants.swift in Sources */,
 				F1AC031B8B03C414D6AECBAD6BD1CACE /* CFViewModelProtocol.swift in Sources */,
 				6D794856CD863BF4E199D79D92685F40 /* ClusteredFiltersKit-dummy.m in Sources */,
