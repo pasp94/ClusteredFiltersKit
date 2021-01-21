@@ -66,7 +66,7 @@ extension CFViewModel: CFViewModelProtocol {
         self.filtersRefresh = completion
     }
     
-    public func bindDataCell<CELL: ConfigurableCell>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType, style: CFCellStyle = .default) {
+    public func bindDataCell<CELL: ConfigurableCell>(cell: CELL, at indexPath: IndexPath, for collectionType: CFView.CFCollectionType, style: CFCellStyle) {
         
         switch collectionType {
         case .unknown:

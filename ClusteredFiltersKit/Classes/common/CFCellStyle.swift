@@ -14,13 +14,23 @@ public enum CFCellStyle {
 
 
 extension CFCellStyle {
-    var textColor: UIColor {
+    var normalTextColor: UIColor {
         switch self {
         case .default:
             return .darkText
         
         case .custom(let textColor, _):
             return textColor
+        }
+    }
+    
+    var selectedTextColor: UIColor {
+        switch self {
+        case .default:
+            return .white
+        
+        case .custom(let textColor, _):
+            return textColor.complementary
         }
     }
     

@@ -9,7 +9,7 @@ import Foundation
 
 struct CFConstants {
     
-    static var runningMode: RunningMode { .normal }
+    static var runningMode: RunningMode { .debugUI }
     static var collectionsSpacing: CGFloat { 5.0 }
     static var collectionsSideInset: CGFloat { 20.0 }
     static var animationShortTime: TimeInterval { 0.35 }
