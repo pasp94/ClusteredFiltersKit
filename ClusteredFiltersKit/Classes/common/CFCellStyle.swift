@@ -29,8 +29,8 @@ extension CFCellStyle {
         case .default:
             return .white
         
-        case .custom(let textColor, _):
-            return textColor.complementary
+        case .custom( _, let selectionColor):
+            return selectionColor.isLight ? .darkText : .white
         }
     }
     
