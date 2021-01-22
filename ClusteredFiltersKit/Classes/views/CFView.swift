@@ -41,6 +41,18 @@ import UIKit
     }
     
     
+    open override var bounds: CGRect {
+        didSet {
+            self.reloadCollectionsFrame()
+        }
+    }
+    
+    open override var frame: CGRect {
+        didSet {
+            self.reloadCollectionsFrame()
+        }
+    }
+    
     
     /// Internal proprerties
     internal var clusterCollection: UICollectionView = initCollectionView()
@@ -59,8 +71,6 @@ import UIKit
     private var cellStyle: CFCellStyle = .default
     
     
-    
-    
     public override init(frame: CGRect) {
         
         initialSize = frame.size
@@ -73,13 +83,22 @@ import UIKit
             layer.borderColor = UIColor.red.cgColor
         }
         
-        let filtersOrigin = CGPoint(x: .zero, y: initialSize.height + CFConstants.collectionsSpacing)
-        
-        clusterCollection.frame = CGRect(origin: .zero, size: initialSize)
-        filtersCollection.frame = CGRect(origin: filtersOrigin, size: initialSize)
-        
         self.addSubview(clusterCollection)
         self.addSubview(filtersCollection)
+        
+        ///`TO-DO:`change the initializer with filters heigt costant
+        NSLayoutConstraint.activate([
+            clusterCollection.topAnchor.constraint(equalTo: self.topAnchor),
+            clusterCollection.leftAnchor.constraint(equalTo: self.leftAnchor),
+            clusterCollection.rightAnchor.constraint(equalTo: self.rightAnchor),
+            clusterCollection.heightAnchor.constraint(equalToConstant: initialSize.height),
+            
+            filtersCollection.topAnchor.constraint(equalTo: clusterCollection.bottomAnchor, constant: CFConstants.collectionsSpacing),
+            filtersCollection.leftAnchor.constraint(equalTo: self.leftAnchor),
+            filtersCollection.rightAnchor.constraint(equalTo: self.rightAnchor),
+            filtersCollection.heightAnchor.constraint(equalToConstant: initialSize.height),
+        
+        ])
     }
     
     required public init?(coder: NSCoder) {
@@ -120,7 +139,6 @@ import UIKit
         //}
     }
     
-    
     internal func makeFilters(isVisible: Bool, animated: Bool = true) {
         debugPrint("CFView: collection frame update!!")
         
@@ -159,8 +177,16 @@ import UIKit
         collection.showsVerticalScrollIndicator = false
         collection.showsHorizontalScrollIndicator = false
         collection.isScrollEnabled = true
+        collection.translatesAutoresizingMaskIntoConstraints = false
         
         return collection
+    }
+    
+    private func reloadCollectionsFrame() {
+        clusterCollection.setNeedsLayout()
+        filtersCollection.setNeedsLayout()
+        
+        self.layoutSubviews()
     }
 }
 
@@ -246,7 +272,7 @@ extension CFView: UICollectionViewDelegateFlowLayout{
 
 extension CFView {
     @objc public enum CFCollectionType: Int {
-        case unknown = 0
+        case unknown    = 0
         case clusters
         case filters
     }
