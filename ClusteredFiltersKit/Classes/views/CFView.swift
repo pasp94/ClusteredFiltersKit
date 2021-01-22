@@ -132,11 +132,13 @@ import UIKit
     internal func selectItem(at index: Int, inCollection collection: UICollectionView, animated: Bool = false) {
         let indexpath = IndexPath(row: index, section: 0)
         
-        //DispatchQueue.main.async {
-        collection.scrollToItem(at: indexpath, at: .centeredHorizontally, animated: animated)
-        collection.selectItem(at: indexpath, animated: animated, scrollPosition: .centeredHorizontally)
-        collection.delegate?.collectionView?(collection, didSelectItemAt: indexpath)
-        //}
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { [weak self] in
+            guard let self = self else { return }
+            
+            collection.scrollToItem(at: indexpath, at: .left, animated: animated)
+            collection.selectItem(at: indexpath, animated: animated, scrollPosition: .left)
+            self.collectionView(collection, didSelectItemAt: indexpath)
+        }
     }
     
     internal func makeFilters(isVisible: Bool, animated: Bool = true) {
