@@ -263,7 +263,17 @@ extension CFView: UICollectionViewDelegateFlowLayout{
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        let side: CGFloat = max(CFConstants.collectionsSideInset, 0.0)
+        var totalCellsWidth: CGFloat = .zero
+        
+        let cellsCount = self.collectionView(collectionView, numberOfItemsInSection: section)
+        
+        for i in 0..<cellsCount {
+            let size = self.collectionView(collectionView, layout: collectionViewLayout, sizeForItemAt: IndexPath(row: i, section: section))
+            totalCellsWidth += size.width
+            totalCellsWidth += (i == cellsCount - 1 ? 0 : CFConstants.collectionsCellSpacing)
+        }
+        
+        let side: CGFloat = max(CFConstants.collectionsSideInset, (collectionView.bounds.width - totalCellsWidth) / 2)
         
         return UIEdgeInsets(top: 0.0, left: side, bottom: 0.0, right: side)
     }
