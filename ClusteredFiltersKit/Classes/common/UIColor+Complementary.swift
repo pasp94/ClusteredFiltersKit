@@ -21,4 +21,11 @@ extension UIColor {
             return UIColor(red: compRed, green: compGreen, blue: compBlue, alpha: 1.0)
         }
     }
+    
+    public var isLight: Bool {
+        let rgbColor = CIColor(color: self)
+        let darknessScore: CGFloat = (((rgbColor.red * 255) * 299) + ((rgbColor.green * 255) * 587) + ((rgbColor.blue * 255) * 114)) / 1000
+        
+        return darknessScore >= 125.0
+    }
 }
